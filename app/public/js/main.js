@@ -36,15 +36,15 @@ var sprite = ["CLEAR","","","","","","","","",""]
 //custom: check URL for "ch" var, and set the channel accourdingly
 var ch = decodeURI( (RegExp('ch' + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1] );
 if(ch != 'null' ) channelPath = ch;
-console.log('channel path: ',channelPath);
+// console.log('channel path: ',channelPath);
 
 //setup socket to signaling server.
 function doSignal(){
-    console.log('doSignal()');
+    // console.log('doSignal()');
     sig = new $xirsys.signal( '/webrtc', userName, {channel:channelPath} );
     sig.on('message', msg => {
         var pkt = JSON.parse(msg.data);
-        console.log('signal message! ',pkt);
+        // console.log('signal message! ',pkt);
         var payload = pkt.p;//the actual message data sent 
         var meta = pkt.m;//meta object
         var msgEvent = meta.o;//event label of message
@@ -92,13 +92,13 @@ function initUI() {
 
     // Settings
     $('.settings-open').click( e => {
-        console.log("open settings");
+        // console.log("open settings");
         $('.settings-panel').show();
     })
 
     
     $('#settings-close').click( e => {
-        console.log("close settings");
+        // console.log("close settings");
 
         // Save Sprites
         for (let i = 1; i < 10; i++) {
@@ -124,7 +124,7 @@ function loadSprite(keycode) {
 function onUserMsg(payload, frmPeer){
     var msg = payload.msg;
     // msg = sanitizeString(msg);
-    console.log('onUserMsg ' + frmPeer + ': ' + msg);
+    // console.log('onUserMsg ' + frmPeer + ': ' + msg);
 
     // Set image
     setSprite(msg, frmPeer);
@@ -142,9 +142,8 @@ function updateOldest(pos) {
 }
 
 function setSprite(spriteUrl, userName) {
-    
     var pos = owner.indexOf(userName);
-    console.log(userName + ' in slot ' + pos);
+    // console.log(userName + ' in slot ' + pos);
 
     if (pos==-1) {
         pos = getOldest();
@@ -153,7 +152,6 @@ function setSprite(spriteUrl, userName) {
     else {
         updateOldest(pos);
     }
-    console.log(pos,oldest,owner)
 
     $('#sprite'+pos).html((spriteUrl == "CLEAR" ? '' : '<image src="'+spriteUrl+'" class="sprite">'))
 }
@@ -162,7 +160,7 @@ function setSprite(spriteUrl, userName) {
 function sendMessage(msg){
     if(msg == undefined || msg.length < 1) return;
     
-    console.log('sendMessage msg: ',msg);
+    // console.log('sendMessage msg: ',msg);
     var pkt = sig.sendMessage(msg);
     return pkt;
 }
@@ -214,13 +212,14 @@ function sanitizeString(str){
 
 //Begin
 $( document ).ready( () => {
-    console.log('pretty loaded!!');
+    // console.log('pretty loaded!!');
 
     userName = getCookie("userName");
     if (userName=="") {
         userName = createUserName();
         document.cookie = document.cookie+` userName=${userName};`
     }
+    console.log("Username: "+ userName)
 
     for (let i = 1; i < 10; i++) {
         sprite[i] = getCookie("sprite"+i);
