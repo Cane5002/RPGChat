@@ -86,7 +86,8 @@ function initUI() {
     $(document).keydown( e => {
         e.stopImmediatePropagation();
         if (e.altKey) {
-            loadSprite(e.which-48);
+            if (e.which==192) $('.settings-panel').toggle()
+            else loadSprite(e.which-48);
         }
     })
 
@@ -106,16 +107,14 @@ function initUI() {
             if (sprite[i]!="") document.cookie=`sprite${i}=${sprite[i]};`
         }
 
-        $('.settings-panel').hide((num) => {
-
-        });
+        $('.settings-panel').hide();
     })
 }
 
+// Electron
 if (window.electronAPI && window.electronAPI.onMacro) {
-    window.electronAPI.onMacro((num) => {
-        loadSprite(num);
-    })
+    $('.settings-open').hide();
+    window.electronAPI.onMacro((num) => { loadSprite(num); });
 }
 
 function loadSprite(num) {

@@ -89,7 +89,8 @@ h3 {
 .characters {
 	display: flex;
 	flex-wrap: wrap;
-	width: 35%
+	width: 35%;
+	bottom: -2% !important;
 }
 .characters > * {
     flex: 0 0 auto;
