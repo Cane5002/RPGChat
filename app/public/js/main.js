@@ -86,7 +86,7 @@ function initUI() {
     $(document).keydown( e => {
         e.stopImmediatePropagation();
         if (e.altKey) {
-            loadSprite(e.which);
+            loadSprite(e.which-48);
         }
     })
 
@@ -106,15 +106,23 @@ function initUI() {
             if (sprite[i]!="") document.cookie=`sprite${i}=${sprite[i]};`
         }
 
-        $('.settings-panel').hide();
+        $('.settings-panel').hide((num) => {
+
+        });
     })
 }
 
-function loadSprite(keycode) {
+if (window.electronAPI && window.electronAPI.onMacro) {
+    window.electronAPI.onMacro((num) => {
+        loadSprite(num);
+    })
+}
+
+function loadSprite(num) {
     //"https://lh3.googleusercontent.com/d/1cHUTSXVEivxCwRnXV7xlIgeHu-BSpFT6"
     //"https://lh3.googleusercontent.com/d/1xj34ImkK5LnDec4eUzGMuuV8IkSD-3ea"
     //"https://lh3.googleusercontent.com/d/1FAVoDSidzkWy_QA6xRd4AsxgPoTpL7ho"
-    let num = keycode-48;
+
     let msg = (num >=0 && num < 10 ? sprite[num] : "")
     if (!msg || msg == "") return;
     var pkt = sendMessage(msg);
