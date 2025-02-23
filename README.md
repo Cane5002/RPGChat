@@ -1,0 +1,1 @@
+RPGChat is a chatroom with rpg-style sprite based dialogue
