@@ -31,7 +31,7 @@ var channelPath;//set this variable to specify a channel path
 
 var oldest = [0,3,1,2];
 var owner = ["","","",""]
-var sprite = ["CLEAR","","","","","","","","",""]
+var sprite = ["0CLEAR","","","","","","","","",""]
 
 //custom: check URL for "ch" var, and set the channel accourdingly
 var ch = decodeURI( (RegExp('ch' + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1] );
@@ -44,7 +44,7 @@ function doSignal(){
     sig = new $xirsys.signal( '/webrtc', userName, {channel:channelPath} );
     sig.on('message', msg => {
         var pkt = JSON.parse(msg.data);
-        // console.log('signal message! ',pkt);
+        console.log('signal message! ',pkt);
         var payload = pkt.p;//the actual message data sent 
         var meta = pkt.m;//meta object
         var msgEvent = meta.o;//event label of message
@@ -93,19 +93,24 @@ function initUI() {
 
     // Settings
     $('.settings-open').click( e => {
-        // console.log("open settings");
+        console.log("open settings");
         $('.settings-panel').show();
     })
 
     
     $('#settings-close').click( e => {
-        // console.log("close settings");
+        console.log("close settings");
 
         // Save Sprites
         for (let i = 1; i < 10; i++) {
-            sprite[i] = $("#imageUrl"+i).val()
-            if (sprite[i]!="") document.cookie=`sprite${i}=${sprite[i]};`
+            sprite[i] = ($("#flip"+i).is(":checked") ? 1 : 0) + $("#imageUrl"+i).val()
+            if (sprite[i].slice(1)!="") document.cookie=`sprite${i}=${sprite[i]};`
         }
+
+        // Set Background
+        var bkgUrl = $('#backgroundUrl').val();
+        if (bkgUrl=="") bkgUrl="CLEAR"
+        sendMessage({bkg:bkgUrl})
 
         $('.settings-panel').hide();
     })
@@ -123,18 +128,26 @@ function loadSprite(num) {
     //"https://lh3.googleusercontent.com/d/1FAVoDSidzkWy_QA6xRd4AsxgPoTpL7ho"
 
     let msg = (num >=0 && num < 10 ? sprite[num] : "")
-    if (!msg || msg == "") return;
-    var pkt = sendMessage(msg);
+    if (!msg || msg.slice(1) == "") return;
+    var pkt = sendMessage({msg:msg});
     if (pkt) onUserMsg(pkt.p, userName);
 }
 
 function onUserMsg(payload, frmPeer){
-    var msg = payload.msg;
-    // msg = sanitizeString(msg);
-    // console.log('onUserMsg ' + frmPeer + ': ' + msg);
-
-    // Set image
-    setSprite(msg, frmPeer);
+    console.log("Got a msg: ",payload)
+    if (payload.msg) {
+        var msg = payload.msg;
+        var url = msg.slice(1);
+        var flip = msg.slice(0,1);
+        // msg = sanitizeString(msg);
+        console.log('onUserMsg ' + frmPeer + ': ' + msg);
+    
+        // Set image
+        setSprite(url, flip, frmPeer);
+    }
+    else if (payload.bkg) {
+        setBackground(url);
+    }
 }
 
 function getOldest() {
@@ -148,7 +161,7 @@ function updateOldest(pos) {
     oldest.push(pos)
 }
 
-function setSprite(spriteUrl, userName) {
+function setSprite(spriteUrl, flip, userName) {
     var pos = owner.indexOf(userName);
     // console.log(userName + ' in slot ' + pos);
 
@@ -160,7 +173,11 @@ function setSprite(spriteUrl, userName) {
         updateOldest(pos);
     }
 
-    $('#sprite'+pos).html((spriteUrl == "CLEAR" ? '' : '<image src="'+spriteUrl+'" class="sprite">'))
+    $('#sprite'+pos).html((spriteUrl == "CLEAR" ? '' : '<image src="'+spriteUrl+'" class="sprite'+(flip ? ' flip' : '')+'">'))
+}
+
+function setBackground(imageUrl) {
+    $('#background').html((imageUrl == "CLEAR" ? '' : '<image src="'+imageUrl+'" class="background">'))
 }
 
 
@@ -230,7 +247,8 @@ $( document ).ready( () => {
 
     for (let i = 1; i < 10; i++) {
         sprite[i] = getCookie("sprite"+i);
-        $("#imageUrl"+i).val(sprite[i])
+        $("#imageUrl"+i).val(sprite[i].slice(1))
+        $("#flip"+i).prop("checked",(sprite[i].slice(0,1)==0 ? false : true))
     }
 
     //doToken();

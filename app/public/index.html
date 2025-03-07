@@ -6,6 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css"></link>
 </head>
 <body style="background-color: transparent;">
+	<div id="background"></div>
+
 	<div class="characters bottom left">
 		<div class="char-col">
 			<div id="sprite0" class="character-slot">
@@ -37,7 +39,7 @@
 	</div>
 
 	<btn class="settings-open bottom right">
-		<image src="https://lh3.googleusercontent.com/d/1jbOl-4WTcgTVf6xKZDpx9dpoVQl2eC-W" class="settings-icon"></image>
+		<image src="resources/SettingIcon.png" class="settings-icon"></image>
 	</btn>
 
 	<div class="settings-panel bottom right">
@@ -51,75 +53,66 @@
 				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
+							<span class="input-group-addon">Background: </span>
+							<input id="backgroundUrl" type="text" class="form-control" placeholder="https://...">
+						</div>
+					</li>
+					<li class="list-group-item settings-line">
+						<div class="input-group">
 							<span class="input-group-addon">1: </span>
 							<input id="imageUrl1" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">2: </span>
 							<input id="imageUrl2" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">3: </span>
 							<input id="imageUrl3" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">4: </span>
 							<input id="imageUrl4" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">5: </span>
 							<input id="imageUrl5" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">6: </span>
 							<input id="imageUrl6" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">7: </span>
 							<input id="imageUrl7" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">8: </span>
 							<input id="imageUrl8" type="text" class="form-control" placeholder="https://...">
 						</div>
 					</li>
-				</ul>  
-				<ul id="macroList" class="list-group">
 					<li class="list-group-item settings-line">
 						<div class="input-group">
 							<span class="input-group-addon">9: </span>
 							<input id="imageUrl9" type="text" class="form-control" placeholder="https://...">
+							     Flip ? <input id="flip9" type="checkbox">
 						</div>
 					</li>
-				</ul>      
+				</ul>
 			</div>
 		</div>
 	</div>

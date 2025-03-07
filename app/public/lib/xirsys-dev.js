@@ -201,17 +201,17 @@ _sig.prototype.setupSocket = function(){
     //console.log('sig:  ',this.sig);
 }
 // User event, sends user message.
-_sig.prototype.sendMessage = function(msg, info){
+_sig.prototype.sendMessage = function(pkg, info){
     if(!info) info = {};
-    console.log('*signal*  sendMessage: ',msg,', info: ',info);
-    if(msg == undefined || msg.length < 1) return;
+    console.log('*signal*  package: ',pkg,', info: ',info);
+    if(pkg == undefined) return;
     var pkt = {
         t: "u", // user message service
         m: {
             f: this.channelPath + this.userName,
             o: !!info.m_event ? info.m_event : 'message'
         },
-        p: {msg:msg}
+        p: pkg
     }
     //console.log('*signal*  sendMessage pkt: ',pkt);
     this.sig.send(JSON.stringify(pkt));
