@@ -83,6 +83,18 @@ function doSignal(){
 //were connected! lets setup the UI for user.
 function initUI() {
     // Macros
+    var $macroList = $("#macroList");
+    for (let i = 1; i < 10; i++) {
+        $macroList.append(`
+            <li class="list-group-item settings-line">
+                <div class="input-group">
+                    <span class="input-group-addon">${i}: </span>
+                    <input id="imageUrl${i}" type="text" class="form-control" placeholder="https://...">
+                </div>
+            </li>
+        `)
+    }
+
     $(document).keydown( e => {
         e.stopImmediatePropagation();
         if (e.altKey) {
