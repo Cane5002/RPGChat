@@ -122,7 +122,8 @@ function initUI() {
         // Set Background
         var bkgUrl = $('#backgroundUrl').val();
         if (bkgUrl=="") bkgUrl="CLEAR"
-        sendMessage({bkg:bkgUrl})
+        var pkt = sendMessage({bkg:bkgUrl})
+        if (pkt) onUserMsg(pkt.p, userName);
 
         $('.settings-panel').hide();
     })
@@ -157,8 +158,9 @@ function onUserMsg(payload, frmPeer){
         // Set image
         setSprite(url, flip, frmPeer);
     }
-    else if (payload.bkg) {
-        setBackground(url);
+    if (payload.bkg) {
+        var bkg = payload.bkg;
+        setBackground(bkg);
     }
 }
 
@@ -189,7 +191,7 @@ function setSprite(spriteUrl, flip, userName) {
 }
 
 function setBackground(imageUrl) {
-    $('#background').html((imageUrl == "CLEAR" ? '' : '<image src="'+imageUrl+'" class="background">'))
+    $('#background').html((imageUrl == "CLEAR" ? '' : '<image src="'+imageUrl+'" class="background-image">'))
 }
 
 

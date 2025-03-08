@@ -203,7 +203,7 @@ _sig.prototype.setupSocket = function(){
 // User event, sends user message.
 _sig.prototype.sendMessage = function(pkg, info){
     if(!info) info = {};
-    console.log('*signal*  package: ',pkg,', info: ',info);
+    console.log('*signal* send message! package: ',pkg,', info: ',info);
     if(pkg == undefined) return;
     var pkt = {
         t: "u", // user message service
